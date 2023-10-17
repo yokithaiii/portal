@@ -58,4 +58,20 @@ class User extends Authenticatable
     {
         return $this->hasMany(Room::class, 'user_1_id', 'id');
     }
+
+    public function forums()
+    {
+        return $this->hasMany(Forum::class, 'user_id', 'id');
+    }
+
+    public function comment()
+    {
+        return $this->hasMany(Comments::class, 'user_id', 'id');
+    }
+
+    public function replys()
+    {
+        return $this->hasMany(CommentsToComments::class, 'user_id', 'id');
+    }
+
 }

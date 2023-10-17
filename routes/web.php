@@ -14,7 +14,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Auth::routes();
-Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+//Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/', [App\Http\Controllers\Posts\PostController::class, 'index'])->name('home');
 
 Route::controller(\App\Http\Controllers\Users\UserController::class)->group(function () {
     Route::get('/users', 'index')->name('users.index');
@@ -44,3 +45,15 @@ Route::controller(\App\Http\Controllers\Chat\ChatController::class)->group(funct
     Route::get('/chat/{chatId}', 'room')->name('chat.room');
     Route::post('/chat/send', 'store')->name('chat.store');
 });
+
+Route::controller(\App\Http\Controllers\Forum\ForumController::class)->group(function () {
+    Route::get('/perddit', 'index')->name('forum.index');
+    Route::get('/perddit/create', 'create')->name('forum.create');
+    Route::get('/perddit/themeId={id}', 'show')->name('forum.show');
+    Route::post('/perddit/comment', 'comment')->name('forum.comment');
+    Route::post('/perddit/', 'store')->name('forum.store');
+    Route::post('/perddit/reply', 'reply')->name('forum.reply');
+});
+
+Route::view('/demo-api', 'demo');
+

@@ -12,7 +12,7 @@
                             @method('patch')
                             <div class="mb-3 text-dark">
                                 <label for="image" class="form-label d-flex">
-                                    <img style="width: 18rem; height: 18rem;" class="rounded-circle mx-auto d-block" src="/storage/{{ $profile->photo }}" alt="">
+                                    <img style="width: 18rem; height: 18rem; object-fit: cover;" class="rounded-circle mx-auto d-block" src="/storage/{{ $profile->photo }}" alt="">
                                 </label>
                                 <p class="small text-muted">Нажмите на картинку чтобы изменить аватар</p>
                                 <input name="image" type="file" class="form- d-none" id="image">

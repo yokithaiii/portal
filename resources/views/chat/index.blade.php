@@ -17,14 +17,13 @@
                                                 <p class="fw-bold mb-0">{{ $item['receiver']->name }}</p>
                                                 <div class="d-flex" style="gap: 5px;">
                                                     <p class="text-dark">
-                                                        last message
+                                                        {{ $item['last']['last_message_body'] }}
                                                     </p>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="pt-1">
-                                            <p class="small text-muted mb-1">last message time</p>
-                                            {{--                                            <span class="badge bg-danger float-end">1</span>--}}
+                                            <p class="small text-muted mb-1">{{ $item['last']['last_message_time'] }}</p>
                                         </div>
                                     </a>
                                 </li>

@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers\Chat;
 
+use App\Events\StoreMessageEvent;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Message\StoreRequest;
+use App\Http\Resources\Message\MessageResource;
+use App\Models\Message;
 use App\Models\Room;
 use Illuminate\Http\Request;
 
@@ -26,13 +30,36 @@ class ChatController extends Controller
                 $rooms[$key]['sender'] = $room->user2;
                 $rooms[$key]['receiver'] = $room->user1;
             }
+
+            $lastMessages = Message::where('room_id', $room->id)
+                ->orderBy('created_at', 'desc')
+                ->first();
+
+            $rooms[$key]['last'] = [
+                'last_message_id' => $lastMessages->id,
+                'last_message_body' => $lastMessages->body,
+                'last_message_time' => $lastMessages->created_at->diffForHumans(),
+                'last_message_sender' =>$lastMessages->user_id_sender
+            ];
         }
+
         return view('chat.index', compact('rooms'));
     }
 
-    public function store()
+    public function store(StoreRequest $request)
     {
+        $data = $request->validated();
+        $room = session('room');
+        $message = Message::create([
+            'body' => $data['body'],
+            'room_id' => $room->getId(),
+            'user_id_sender' => $room['sender']->id,
+            'user_id_receiver' => $room['receiver']->id,
+        ]);
 
+        broadcast(new StoreMessageEvent($message))->toOthers();
+
+        return MessageResource::make($message)->resolve();
     }
 
     public function createRoom($id)
@@ -54,7 +81,11 @@ class ChatController extends Controller
             $room['sender'] = $room->user2;
             $room['receiver'] = $room->user1;
         }
+        $messages = Message::where('room_id', $id)->orderBy('created_at', 'asc')->get();
+        $messages = MessageResource::collection($messages)->resolve();
 
-        return view('chat.room', compact('room'));
+        session(['room' => $room]);
+
+        return view('chat.room', compact('room', 'messages', 'room'));
     }
 }

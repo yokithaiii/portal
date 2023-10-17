@@ -17,3 +17,9 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::apiResources([
+    'users' => \App\Http\Controllers\Api\UsersController::class,
+    'posts' => \App\Http\Controllers\Api\PostsController::class,
+    'forums' => \App\Http\Controllers\Api\ForumsController::class,
+]);

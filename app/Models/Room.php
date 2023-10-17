@@ -25,4 +25,9 @@ class Room extends Model
     {
         return $this->belongsTo(User::class, 'user2_id');
     }
+
+    public function getId()
+    {
+        return $this->id;
+    }
 }

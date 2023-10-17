@@ -14,7 +14,9 @@
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
 
     <!-- Scripts -->
-    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    @routes
+    @vite(['resources/sass/app.scss', 'resources/js/app.js', "resources/js/Pages/Message/Index.vue"])
+
 </head>
 <body class="bg-dark">
     <div id="app">
@@ -33,10 +35,13 @@
                             <a class="nav-link px-2 text-white" href="{{ route('users.index') }}">Пользователи</a>
                         </li>
                         <li>
-                            <a class="nav-link px-2 text-white" href="{{ route('posts.index') }}">Посты</a>
+                            <a class="nav-link px-2 text-white" href="{{ route('chat.index') }}">Чат</a>
                         </li>
                         <li>
-                            <a class="nav-link px-2 text-white" href="{{ route('chat.index') }}">Чат</a>
+                            <a class="nav-link px-2 text-white" href="{{ route('forum.index') }}">Форум</a>
+                        </li>
+                        <li>
+                            <a class="nav-link px-2 text-white" href="/demo-api">Api</a>
                         </li>
                     </ul>
 
