@@ -2,20 +2,17 @@
 
 namespace App\Http\Controllers\Forum;
 
-use App\Http\Controllers\Controller;
-use App\Models\Comments;
-use App\Models\CommentsToComments;
+use App\Http\Requests\Forum\ForumCommentRequest;
+use App\Http\Requests\Forum\ForumReplyRequest;
+use App\Http\Requests\Forum\ForumRequest;
+use App\Models\Comment;
 use App\Models\Forum;
-use Illuminate\Http\Request;
 
-class ForumController extends Controller
+class ForumController extends BaseController
 {
     public function index()
     {
-        $forums = Forum::all();
-        foreach ($forums as $key => $item) {
-            $forums[$key]['user'] = $item->user;
-        }
+        $forums = $this->service->index();
         return view('forum.index', compact('forums'));
     }
 
@@ -24,29 +21,11 @@ class ForumController extends Controller
         return view('forum.create');
     }
 
-    public function store()
+    public function store(ForumRequest $request)
     {
-        $data = \request()->validate([
-            'title' => 'string',
-            'content' => 'string',
-            'image' => 'file',
-            'userId' => 'string',
-        ]);
-        if (isset($data['image'])) {
-            $image = $data['image']->store('uploads', 'public');
-            Forum::create([
-                'title' => $data['title'],
-                'content' => $data['content'],
-                'image' => $image,
-                'user_id' => auth()->id(),
-            ]);
-        } else {
-            Forum::create([
-                'title' => $data['title'],
-                'content' => $data['content'],
-                'user_id' => auth()->id(),
-            ]);
-        }
+        $data = $request->validated();
+
+        $this->service->store($data);
 
         return redirect()->route('forum.index');
     }
@@ -54,46 +33,28 @@ class ForumController extends Controller
     public function show($id)
     {
         $forum = Forum::findOrFail($id);
-        $comments = Comments::where('forum_id', $id)->get();
-        foreach ($comments as $key => $item) {
-            $comments[$key]['user'] = $item->user;
-            $comments[$key]['time'] = $item->created_at->diffForHumans();
-            $comments[$key]['replys'] = $item->commentsToComments;
-            foreach ($item->commentsToComments as $i => $reply) {
-                $comments[$key]['replys'][$i]['user'] = $reply->userReply;
-                $comments[$key]['replys'][$i]['time'] = $reply->created_at->diffForHumans();
-            }
-        }
+        $comments = Comment::where('forum_id', $id)->get();
+
+        $this->service->show($comments);
+
         return view('forum.show', compact('forum', 'comments'));
     }
 
-    public function comment()
+    public function comment(ForumCommentRequest $request)
     {
-        $data = \request()->validate([
-            'comment' => 'string',
-            'forum_id' => 'string',
-        ]);
-        Comments::create([
-            'comment' => $data['comment'],
-            'user_id' => auth()->id(),
-            'forum_id' => $data['forum_id']
-        ]);
+        $data = $request->validated();
+
+        $this->service->comment($data);
+
         return redirect()->route('forum.show', $data['forum_id']);
     }
 
-    public function reply()
+    public function reply(ForumReplyRequest $request)
     {
-        $data = \request()->validate([
-            'comment' => 'string',
-            'forum_id' => 'string',
-            'comment_id' => 'string',
-        ]);
-        CommentsToComments::create([
-            'comment' => $data['comment'],
-            'comment_id' => $data['comment_id'],
-            'user_id' => auth()->id(),
-            'forum_id' => $data['forum_id']
-        ]);
+        $data = $request->validated();
+
+        $this->service->reply($data);
+
         return redirect()->route('forum.show', $data['forum_id']);
     }
 

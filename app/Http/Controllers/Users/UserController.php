@@ -2,13 +2,10 @@
 
 namespace App\Http\Controllers\Users;
 
-use App\Http\Controllers\Controller;
 use App\Models\Post;
-use App\Models\Subscription;
 use App\Models\User;
-use Illuminate\Http\Request;
 
-class UserController extends Controller
+class UserController extends BaseController
 {
     public function index()
     {
@@ -20,34 +17,21 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
         $posts = Post::where('user_id', $id)->get();
-        $sub = Subscription::where('follower_id', auth()->id())
-            ->where('sub_id', $id)
-            ->first();
-        if ($sub) {
-            $subStatusTrue = true;
-        } else {
-            $subStatusTrue = false;
-        }
+
+        $subStatusTrue = $this->service->show($id);
+
         return view('users.show', compact('user', 'posts', 'subStatusTrue'));
     }
 
     public function subs()
     {
-        $subsAll = Subscription::where('follower_id', auth()->id())
-            ->get();
-        foreach ($subsAll as $item) {
-            $subs[] = $item->user;
-        }
-//        dd($subs);
+        $subs = $this->service->subs();
         return view('users.subscriptions', compact('subs'));
     }
 
     public function store($id)
     {
-        Subscription::updateOrCreate([
-            'sub_id' => $id,
-            'follower_id' => auth()->id(),
-        ]);
+        $this->service->store($id);
         return redirect()->route('users.subs');
     }
 
