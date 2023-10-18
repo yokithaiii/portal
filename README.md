@@ -19,7 +19,7 @@
 
 - Открой второй консоль и пропишите команды:
 
-    
-    npm i
 
-    npm run dev
+        npm i
+  
+        npm run dev
