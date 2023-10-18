@@ -25,6 +25,9 @@
                                 <a class="text-white text-decoration-none" href="{{ route('forum.show', $forum->id) }}">
                                     <h5 class="card-title">{{ $forum->title }}</h5>
                                     <p class="card-text">{{ $forum->content }}</p>
+                                    <div class="d-flex mt-3">
+                                        <img class="rounded" src="/storage/{{ $forum->image }}" alt="" style="width: 100%;">
+                                    </div>
                                 </a>
                             </div>
                         </div>

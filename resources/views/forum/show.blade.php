@@ -15,7 +15,10 @@
                         <div class="pt-3 pe-3 perfect-scrollbar ps ps--active-y" data-mdb-perfect-scrollbar="true" style="position: relative;">
                             <div class="card">
                                 <div class="card-body" style="padding-bottom: 0;">
-                                    {{ $forum->content }}
+                                    <p class="card-text">{{ $forum->content }}</p>
+                                    <div class="d-flex mt-3">
+                                        <img class="rounded" src="/storage/{{ $forum->image }}" alt="" style="width: 100%;">
+                                    </div>
                                 </div>
                                 <hr>
                                 <div class="card-body" style="padding-top: 0;">

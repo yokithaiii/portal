@@ -24,6 +24,8 @@ class Service
     {
         $subsAll = Subscription::where('follower_id', auth()->id())
             ->get();
+        $subs = [];
+
         foreach ($subsAll as $item) {
             $subs[] = $item->user;
         }
