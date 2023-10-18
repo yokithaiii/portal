@@ -16,7 +16,7 @@ class UserController extends BaseController
     public function show($id)
     {
         $user = User::findOrFail($id);
-        $posts = Post::where('user_id', $id)->get();
+        $posts = Post::query()->where('user_id', $id)->get();
 
         $subStatusTrue = $this->service->show($id);
 

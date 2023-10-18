@@ -20,21 +20,21 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
-Route::get('/', [PostController::class, 'index'])->name('home');
+Route::get('/', [PostController::class, 'index'])->middleware('auth')->name('home');
 
-Route::controller(UserController::class)->group(function () {
+Route::controller(UserController::class)->middleware('auth')->group(function () {
     Route::get('/users', 'index')->name('users.index');
     Route::get('/users/subs', 'subs')->name('users.subs');
     Route::get('/users/subs/{id}', 'store')->name('users.store');
     Route::get('/users/{id}', 'show')->name('users.show');
 });
 
-Route::controller(ProfileController::class)->group(function () {
+Route::controller(ProfileController::class)->middleware('auth')->group(function () {
     Route::get('/profile', 'index')->name('profile.index');
     Route::patch('/profile/{user}', 'editProfile')->name('profile.edit');
 });
 
-Route::controller(PostController::class)->group(function () {
+Route::controller(PostController::class)->middleware('auth')->group(function () {
     Route::get('/posts', 'index')->name('posts.index');
     Route::get('/posts/create', 'create')->name('post.create');
     Route::get('/posts/delete/{post}', 'delete')->name('post.delete');
@@ -43,14 +43,14 @@ Route::controller(PostController::class)->group(function () {
     Route::post('/posts/like/{post}', 'like')->name('post.like');
 });
 
-Route::controller(ChatController::class)->group(function () {
+Route::controller(ChatController::class)->middleware('auth')->group(function () {
     Route::get('/chat', 'index')->name('chat.index');
     Route::get('/chat/create/{id}', 'createRoom')->name('chat.create');
     Route::get('/chat/{chatId}', 'room')->name('chat.room');
     Route::post('/chat/send', 'store')->name('chat.store');
 });
 
-Route::controller(ForumController::class)->group(function () {
+Route::controller(ForumController::class)->middleware('auth')->group(function () {
     Route::get('/perddit', 'index')->name('forum.index');
     Route::get('/perddit/create', 'create')->name('forum.create');
     Route::get('/perddit/theme/{id}', 'show')->name('forum.show');
