@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\Api\ForumsController;
+use App\Http\Controllers\Api\PostsController;
+use App\Http\Controllers\Api\UsersController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -19,7 +22,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::apiResources([
-    'users' => \App\Http\Controllers\Api\UsersController::class,
-    'posts' => \App\Http\Controllers\Api\PostsController::class,
-    'forums' => \App\Http\Controllers\Api\ForumsController::class,
+    'users' => UsersController::class,
+    'posts' => PostsController::class,
+    'forums' => ForumsController::class,
 ]);
