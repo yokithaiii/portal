@@ -9,9 +9,7 @@ class PostController extends BaseController
 {
     public function index()
     {
-        $posts = Post::all();
-
-        $this->service->index($posts);
+        $posts = $this->service->index();
 
         return view('posts.index', compact('posts'));
     }

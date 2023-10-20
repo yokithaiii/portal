@@ -23,7 +23,7 @@
                             </div>
                             @if($user->id != auth()->id())
                                 <div class="mb-2 text-dark">
-                                    @if($subStatusTrue != true)
+                                    @if($sub_status != true)
                                     <a href="{{ route('users.store', $user->id) }}" class="btn btn-primary">Подписаться</a>
                                     @else
                                     <a href="#" class="btn btn-success">Вы уже подписаны</a>

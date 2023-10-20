@@ -7,13 +7,14 @@ use App\Models\Subscription;
 
 class Service
 {
-    public function index($posts)
+    public function index()
     {
+        $posts = Post::all();
         foreach ($posts as $key => $post) {
             $posts[$key]['user'] = $post->user;
         }
-        $user_id = auth()->id();
-        $subs = Subscription::where('follower_id', $user_id)->get();
+
+        return $posts;
     }
 
     public function store($data)

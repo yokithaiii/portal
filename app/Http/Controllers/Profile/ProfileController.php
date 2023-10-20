@@ -18,10 +18,7 @@ class ProfileController extends BaseController
 
     public function editProfile($id, ProfileRequest $request)
     {
-        $user = User::findOrFail($id);
-        $data = $request->validated();
-
-        $this->service->store($data, $user);
+        $this->service->store($id, $request);
 
         return redirect()->route('profile.index');
     }

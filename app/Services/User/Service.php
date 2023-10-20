@@ -2,22 +2,30 @@
 
 namespace App\Services\User;
 
+use App\Models\Post;
 use App\Models\Subscription;
+use App\Models\User;
 
 class Service
 {
     public function show($id)
     {
+        $user = User::findOrFail($id);
+        $posts = Post::query()->where('user_id', $id)->get();
         $sub = Subscription::where('follower_id', auth()->id())
             ->where('sub_id', $id)
             ->first();
         if ($sub) {
-            $subStatusTrue = true;
+            $sub_status = true;
         } else {
-            $subStatusTrue = false;
+            $sub_status = false;
         }
 
-        return $subStatusTrue;
+        return [
+            'user' => $user,
+            'posts' => $posts,
+            'sub_status' => $sub_status
+        ];
     }
 
     public function subs()

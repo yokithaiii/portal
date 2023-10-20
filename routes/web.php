@@ -31,16 +31,15 @@ Route::controller(UserController::class)->middleware('auth')->group(function () 
 
 Route::controller(ProfileController::class)->middleware('auth')->group(function () {
     Route::get('/profile', 'index')->name('profile.index');
-    Route::patch('/profile/{user}', 'editProfile')->name('profile.edit');
+    Route::patch('/profile/{id}', 'editProfile')->name('profile.edit');
 });
 
 Route::controller(PostController::class)->middleware('auth')->group(function () {
     Route::get('/posts', 'index')->name('posts.index');
     Route::get('/posts/create', 'create')->name('post.create');
-    Route::get('/posts/delete/{post}', 'delete')->name('post.delete');
-    Route::get('/posts/{post}', 'show')->name('post.show');
+    Route::get('/posts/delete/{id}', 'delete')->name('post.delete');
+    Route::get('/posts/{id}', 'show')->name('post.show');
     Route::post('/posts', 'store')->name('post.store');
-    Route::post('/posts/like/{post}', 'like')->name('post.like');
 });
 
 Route::controller(ChatController::class)->middleware('auth')->group(function () {
