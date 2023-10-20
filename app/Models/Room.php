@@ -9,10 +9,6 @@ class Room extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'user1_id',
-        'user2_id',
-    ];
     protected $table = 'rooms';
     protected $guarded = false;
 
