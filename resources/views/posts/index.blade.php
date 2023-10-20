@@ -47,7 +47,7 @@
                 </div>
 
                 <div class="tab-pane fade" id="pills-subs" role="tabpanel" aria-labelledby="pills-subs-tab">
-                    @foreach($posts->sortByDesc('created_at') as $post)
+                    @foreach($sub_posts as $post)
                         <div class="col card mb-3">
                             <div class="card-body">
                                 <div class="d-flex align-items-center justify-content-between mb-4">

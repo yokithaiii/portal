@@ -9,9 +9,12 @@ class PostController extends BaseController
 {
     public function index()
     {
-        $posts = $this->service->index();
+        $posts_service = $this->service->index();
 
-        return view('posts.index', compact('posts'));
+        $posts = $posts_service['posts'];
+        $sub_posts = $posts_service['sub_posts'];
+
+        return view('posts.index', compact('posts', 'sub_posts'));
     }
 
     public function create()

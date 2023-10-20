@@ -14,7 +14,22 @@ class Service
             $posts[$key]['user'] = $post->user;
         }
 
-        return $posts;
+        $subs = Subscription::query()
+            ->where('follower_id', auth()->id())
+            ->get();
+
+        $subs_posts = [];
+
+        foreach ($subs as $sub) {
+            $subs_posts = Post::query()
+                ->where('user_id', $sub->sub_id)
+                ->get();
+        }
+
+        return [
+            'posts' => $posts,
+            'sub_posts' => $subs_posts,
+        ];
     }
 
     public function store($data)
